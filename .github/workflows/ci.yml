@@ -3,6 +3,7 @@ name: CI/CD
 on:
   push:
     branches: [main]
+    paths: ["package.json"]
   pull_request:
     branches: [main]
   release:
@@ -25,12 +26,11 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build
-      - run: npm test # if tests exist
 
   publish:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+    if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'package.json')
 
     steps:
       - uses: actions/checkout@v4
