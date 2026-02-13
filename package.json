@@ -1,0 +1,36 @@
+{
+  "name": "kirara",
+  "version": "1.0.0",
+  "description": "A TypeScript library for fetching character data from Enka API and generating card images using enka.cards. Supports Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "genshin",
+    "enka",
+    "api",
+    "cards",
+    "typescript"
+  ],
+  "author": "Kiznaiverr",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kiznaiverr/kirara.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kiznaiverr/kirara/issues"
+  },
+  "homepage": "https://github.com/Kiznaiverr/kirara#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
