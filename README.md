@@ -14,7 +14,7 @@ A TypeScript library for fetching Genshin Impact character data from the Enka AP
 ## Installation
 
 ```bash
-npm install kirara
+npm install @kiznaiverr/kirara
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install kirara
 Import the library and create an instance:
 
 ```typescript
-import { Kirara } from "kirara";
+import { Kirara } from "@kiznaiverr/kirara";
 
 const kirara = new Kirara();
 ```
