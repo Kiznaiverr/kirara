@@ -44,6 +44,7 @@ export interface HsrPlayerInfo {
     avatarCount: number;
     equipmentCount: number;
   };
+  personalCardId: number;
   avatarDetailList: HsrAvatar[];
 }
 
@@ -58,12 +59,35 @@ export interface HsrPlayerData {
   detailInfo: HsrPlayerInfo;
 }
 
-export interface ZzzPlayerData {
-  game: "zzz";
-  // Placeholder
+export interface SimplifiedPlayerData {
+  // Genshin fields
+  nickname?: string;
+  level?: number;
+  signature?: string;
+  worldLevel?: number;
+  nameCardId?: number;
+  finishAchievementNum?: number;
+  towerFloorIndex?: number;
+  towerLevelIndex?: number;
+  fetterCount?: number;
+  towerStarIndex?: number;
+  stygianIndex?: number;
+  stygianSeconds?: number;
+  stygianId?: number;
+  avatarIds?: string[];
+  defaultAvatarId?: string | null;
+  cardUrl?: string | null;
+  // HSR fields
+  platform?: string;
+  recordInfo?: {
+    achievementCount: number;
+    avatarCount: number;
+    equipmentCount: number;
+  };
+  uid?: number;
+  region?: string;
+  avatarId?: string | null;
 }
-
-export type PlayerData = GenshinPlayerData | HsrPlayerData | ZzzPlayerData;
 
 export interface CardOptions {
   lang?: string;
@@ -72,3 +96,10 @@ export interface CardOptions {
   uid?: boolean;
   hideNames?: boolean;
 }
+
+export interface ZzzPlayerData {
+  game: "zzz";
+  // Placeholder
+}
+
+export type PlayerData = GenshinPlayerData | HsrPlayerData | ZzzPlayerData;

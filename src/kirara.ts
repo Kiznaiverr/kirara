@@ -6,6 +6,7 @@ import {
   Game,
   GenshinPlayerData,
   HsrPlayerData,
+  SimplifiedPlayerData,
 } from "./types";
 
 export class Kirara {
@@ -83,5 +84,57 @@ export class Kirara {
   ): Promise<Buffer | null> {
     const avatarId = await this.getDefaultAvatarId(uid);
     return avatarId ? this.generateCardImage(uid, avatarId, options) : null;
+  }
+
+  async getPlayerSummary(
+    uid: string,
+    options?: CardOptions,
+  ): Promise<SimplifiedPlayerData> {
+    const data = await this.getPlayerData(uid);
+    const avatarIds = await this.getAvatarList(uid);
+    const defaultAvatarId = await this.getDefaultAvatarId(uid);
+    const cardUrl = defaultAvatarId
+      ? this.generateCardUrl(uid, defaultAvatarId, options)
+      : null;
+
+    switch (this.game) {
+      case "genshin":
+        const genshinData = data as GenshinPlayerData;
+        return {
+          nickname: genshinData.playerInfo.nickname,
+          level: genshinData.playerInfo.level,
+          signature: genshinData.playerInfo.signature,
+          worldLevel: genshinData.playerInfo.worldLevel,
+          nameCardId: genshinData.playerInfo.nameCardId,
+          finishAchievementNum: genshinData.playerInfo.finishAchievementNum,
+          towerFloorIndex: genshinData.playerInfo.towerFloorIndex,
+          towerLevelIndex: genshinData.playerInfo.towerLevelIndex,
+          fetterCount: genshinData.playerInfo.fetterCount,
+          towerStarIndex: genshinData.playerInfo.towerStarIndex,
+          stygianIndex: genshinData.playerInfo.stygianIndex,
+          stygianSeconds: genshinData.playerInfo.stygianSeconds,
+          stygianId: genshinData.playerInfo.stygianId,
+          avatarIds,
+          defaultAvatarId,
+          cardUrl,
+        };
+      case "hsr":
+        const hsrData = data as HsrPlayerData;
+        return {
+          platform: hsrData.detailInfo.platform,
+          recordInfo: hsrData.detailInfo.recordInfo,
+          uid: hsrData.detailInfo.uid,
+          level: hsrData.detailInfo.level,
+          nickname: hsrData.detailInfo.nickname,
+          region: "NA", // Placeholder
+          avatarIds,
+          avatarId: defaultAvatarId,
+          cardUrl,
+        } as any; // Temporary cast to avoid type mismatch
+      case "zzz":
+        throw new Error("ZZZ summary not implemented");
+      default:
+        throw new Error(`Unsupported game: ${this.game}`);
+    }
   }
 }
