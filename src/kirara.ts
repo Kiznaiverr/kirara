@@ -29,18 +29,24 @@ export class Kirara {
     switch (this.game) {
       case "genshin":
         const genshinData = data as GenshinPlayerData;
-        return genshinData.playerInfo.showAvatarInfoList.map((avatar) =>
-          avatar.avatarId.toString(),
+        return (
+          genshinData.playerInfo?.showAvatarInfoList?.map((avatar) =>
+            avatar.avatarId.toString(),
+          ) || []
         );
       case "hsr":
         const hsrData = data as HsrPlayerData;
-        return hsrData.detailInfo.avatarDetailList.map((avatar) =>
-          avatar.avatarId.toString(),
+        return (
+          hsrData.detailInfo?.avatarDetailList?.map((avatar) =>
+            avatar.avatarId.toString(),
+          ) || []
         );
       case "zzz":
         const zzzData = data as ZzzPlayerData;
-        return zzzData.PlayerInfo.ShowcaseDetail.AvatarList.map((agent) =>
-          agent.Id.toString(),
+        return (
+          zzzData.PlayerInfo?.ShowcaseDetail?.AvatarList?.map((agent) =>
+            agent.Id.toString(),
+          ) || []
         );
       default:
         throw new Error(`Unsupported game: ${this.game}`);
