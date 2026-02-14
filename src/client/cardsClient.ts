@@ -1,13 +1,16 @@
 import axios from "axios";
-import { CardOptions } from "../types";
+import { CardOptions, Game } from "../types";
+import { getCardsBaseUrl } from "../game";
 
 export class CardsClient {
   generateCardUrl(
     uid: string,
     avatarId: string,
     options?: CardOptions,
+    game: Game = "genshin",
   ): string {
-    let url = `https://cards.enka.network/u/${uid}/${avatarId}/image`;
+    const baseUrl = getCardsBaseUrl(game);
+    let url = `${baseUrl}/${uid}/${avatarId}/image`;
     if (options) {
       const params = new URLSearchParams();
       if (options.lang) params.append("lang", options.lang);
@@ -29,8 +32,9 @@ export class CardsClient {
     uid: string,
     avatarId: string,
     options?: CardOptions,
+    game: Game = "genshin",
   ): Promise<Buffer> {
-    const url = this.generateCardUrl(uid, avatarId, options);
+    const url = this.generateCardUrl(uid, avatarId, options, game);
     const response = await axios.get(url, { responseType: "arraybuffer" });
     return Buffer.from(response.data);
   }
