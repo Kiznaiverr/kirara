@@ -6,6 +6,7 @@ import {
   Game,
   GenshinPlayerData,
   HsrPlayerData,
+  ZzzPlayerData,
   SimplifiedPlayerData,
 } from "./types";
 
@@ -37,8 +38,10 @@ export class Kirara {
           avatar.avatarId.toString(),
         );
       case "zzz":
-        // Placeholder
-        return [];
+        const zzzData = data as ZzzPlayerData;
+        return zzzData.PlayerInfo.ShowcaseDetail.AvatarList.map((agent) =>
+          agent.Id.toString(),
+        );
       default:
         throw new Error(`Unsupported game: ${this.game}`);
     }
@@ -132,7 +135,17 @@ export class Kirara {
           cardUrl,
         } as any; // Temporary cast to avoid type mismatch
       case "zzz":
-        throw new Error("ZZZ summary not implemented");
+        const zzzData = data as ZzzPlayerData;
+        return {
+          uid: zzzData.uid,
+          region: zzzData.region,
+          signature: zzzData.PlayerInfo.SocialDetail.Desc,
+          nickname: zzzData.PlayerInfo.SocialDetail.ProfileDetail.Nickname,
+          level: zzzData.PlayerInfo.SocialDetail.ProfileDetail.Level,
+          avatarIds,
+          defaultAvatarId,
+          cardUrl,
+        };
       default:
         throw new Error(`Unsupported game: ${this.game}`);
     }

@@ -27,6 +27,7 @@ import { Kirara } from "@kiznavierr/kirara";
 
 const kiraraGenshin = new Kirara("genshin");
 const kiraraHsr = new Kirara("hsr");
+const kiraraZzz = new Kirara("zzz");
 ```
 
 ### Examples
@@ -65,6 +66,22 @@ const cardUrl = await kiraraHsr.generateDefaultCardUrl("800069903", {
 });
 ```
 
+#### Zenless Zone Zero
+
+```typescript
+// Fetch simplified player summary
+const summary = await kiraraZzz.getPlayerSummary("1500422486", { lang: "en" });
+console.log(summary); // { uid: '1500422486', region: 'EU', nickname: 'Lumi', level: 60, signature: '...', avatarIds: [...], ... }
+
+// Fetch full player data
+const playerData = await kiraraZzz.getPlayerData("1500422486");
+
+// Generate card URL for default character
+const cardUrl = await kiraraZzz.generateDefaultCardUrl("1500422486", {
+  lang: "en",
+});
+```
+
 ## API
 
 - `new Kirara(game: "genshin" | "hsr" | "zzz")`: Create instance for specific game.
@@ -76,4 +93,7 @@ const cardUrl = await kiraraHsr.generateDefaultCardUrl("800069903", {
 - `generateCardImage(uid: string, avatarId: string, options?: CardOptions)`: Fetch image as Buffer.
 - `generateDefaultCardUrl(uid: string, options?: CardOptions)`: Generate URL for default avatar.
 - `generateDefaultCardImage(uid: string, options?: CardOptions)`: Fetch image for default avatar.
+
+```
+
 ```
