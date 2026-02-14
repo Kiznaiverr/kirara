@@ -69,6 +69,9 @@ export interface SimplifiedPlayerData {
   finishAchievementNum?: number;
   towerFloorIndex?: number;
   towerLevelIndex?: number;
+  theaterActIndex?: number;
+  theaterModeIndex?: number;
+  theaterStarIndex?: number;
   fetterCount?: number;
   towerStarIndex?: number;
   stygianIndex?: number;

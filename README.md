@@ -42,7 +42,7 @@ const kirara = new Kirara("genshin");
 kirara
   .getPlayerSummary("856012067", { lang: "en" })
   .then((data) => console.log(data));
-// Output: { nickname: 'Kiznavierr', level: 60, avatarIds: [...], cardUrl: '...' }
+// Output: { nickname: 'Kiznavierr', level: 60, worldLevel: 8, theaterActIndex: 10, theaterModeIndex: 84, theaterStarIndex: 5, towerFloorIndex: 12, towerStarIndex: 36, avatarIds: [...], cardUrl: '...' }
 
 // Get avatar list
 kirara.getAvatarList("856012067").then((ids) => console.log(ids));
