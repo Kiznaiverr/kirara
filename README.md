@@ -18,82 +18,116 @@ A TypeScript library for fetching character data from the Enka API and generatin
 npm install @kiznavierr/kirara
 ```
 
-## Usage
-
-Import the library and create an instance with the desired game:
+## Quick Start
 
 ```typescript
 import { Kirara } from "@kiznavierr/kirara";
 
-const kiraraGenshin = new Kirara("genshin");
-const kiraraHsr = new Kirara("hsr");
-const kiraraZzz = new Kirara("zzz");
+const kirara = new Kirara("genshin"); // or "hsr" or "zzz"
+
+// Get player summary
+kirara
+  .getPlayerSummary("856012067", { lang: "en" })
+  .then((data) => console.log(data));
 ```
 
-### Examples
+## Examples
 
-#### Genshin Impact
+### Genshin Impact
 
 ```typescript
-// Fetch simplified player summary
-const summary = await kiraraGenshin.getPlayerSummary("856012067", {
-  lang: "en",
-});
-console.log(summary); // { nickname: 'Kiznavierr', level: 60, signature: '...', avatarIds: [...], ... }
+const kirara = new Kirara("genshin");
 
-// Fetch full player data
-const playerData = await kiraraGenshin.getPlayerData("856012067");
+// Get player summary
+kirara
+  .getPlayerSummary("856012067", { lang: "en" })
+  .then((data) => console.log(data));
+// Output: { nickname: 'Kiznavierr', level: 60, avatarIds: [...], cardUrl: '...' }
 
-// Generate card URL for default character
-const cardUrl = await kiraraGenshin.generateDefaultCardUrl("856012067", {
-  lang: "en",
-});
+// Get avatar list
+kirara.getAvatarList("856012067").then((ids) => console.log(ids));
+
+// Generate card URL
+const cardUrl = kirara.generateCardUrl("856012067", "10000002", { lang: "en" });
 ```
 
-#### Honkai: Star Rail
+### Honkai: Star Rail
 
 ```typescript
-// Fetch simplified player summary
-const summary = await kiraraHsr.getPlayerSummary("800069903", { lang: "en" });
-console.log(summary); // { nickname: 'Player name', level: 70, platform: 'PC', recordInfo: {...}, avatarIds: [...], ... }
+const kirara = new Kirara("hsr");
 
-// Fetch full player data
-const playerData = await kiraraHsr.getPlayerData("800069903");
+// Get player summary
+kirara
+  .getPlayerSummary("800069903", { lang: "en" })
+  .then((data) => console.log(data));
+// Output: { nickname: 'Player', level: 70, platform: 'PC', avatarIds: [...], cardUrl: '...' }
 
-// Generate card URL for default character
-const cardUrl = await kiraraHsr.generateDefaultCardUrl("800069903", {
-  lang: "en",
-});
+// Get avatar list
+kirara.getAvatarList("800069903").then((ids) => console.log(ids));
+
+// Generate card URL
+const cardUrl = kirara.generateCardUrl("800069903", "1001", { lang: "en" });
 ```
 
-#### Zenless Zone Zero
+### Zenless Zone Zero
 
 ```typescript
-// Fetch simplified player summary
-const summary = await kiraraZzz.getPlayerSummary("1500422486", { lang: "en" });
-console.log(summary); // { uid: '1500422486', region: 'EU', nickname: 'Lumi', level: 60, signature: '...', avatarIds: [...], ... }
+const kirara = new Kirara("zzz");
 
-// Fetch full player data
-const playerData = await kiraraZzz.getPlayerData("1500422486");
+// Get player summary
+kirara
+  .getPlayerSummary("1500422486", { lang: "en" })
+  .then((data) => console.log(data));
+// Output: { uid: '1500422486', region: 'EU', nickname: 'Lumi', level: 60, avatarIds: [...], cardUrl: '...' }
 
-// Generate card URL for default character
-const cardUrl = await kiraraZzz.generateDefaultCardUrl("1500422486", {
+// Get agent list
+kirara.getAvatarList("1500422486").then((ids) => console.log(ids));
+
+// Generate card URL
+const cardUrl = kirara.generateCardUrl("1500422486", "1171", { lang: "en" });
+```
+
+## API Reference
+
+### Constructor
+
+```typescript
+new Kirara(game: "genshin" | "hsr" | "zzz")
+```
+
+### Methods
+
+- `getPlayerSummary(uid, options?)` - Get simplified player data
+- `getPlayerData(uid)` - Get full player data from Enka API
+- `getAvatarList(uid)` - Get array of character/agent IDs
+- `getDefaultAvatarId(uid)` - Get first avatar ID
+- `generateCardUrl(uid, avatarId, options?)` - Generate card image URL
+- `generateCardImage(uid, avatarId, options?)` - Download card as Buffer
+- `generateDefaultCardUrl(uid, options?)` - Generate URL for first avatar
+- `generateDefaultCardImage(uid, options?)` - Download first avatar card
+
+### Card Options
+
+```typescript
+{
+  lang?: string;           // Language: "en", "jp", "id", etc. (default: "en")
+  substats?: boolean;      // Show substats (default: false)
+  subsBreakdown?: boolean; // Show substat breakdown (default: false)
+  uid?: boolean;           // Show UID on card (default: false)
+  hideNames?: boolean;     // Hide character names (default: false)
+}
+```
+
+Example:
+
+```typescript
+const url = kirara.generateCardUrl("856012067", "10000002", {
   lang: "en",
+  substats: true,
+  uid: true,
 });
 ```
 
-## API
+## License
 
-- `new Kirara(game: "genshin" | "hsr" | "zzz")`: Create instance for specific game.
-- `getPlayerSummary(uid: string, options?: CardOptions)`: Fetch simplified player data with avatar list and card URL.
-- `getPlayerData(uid: string)`: Fetch full player data from Enka API.
-- `getAvatarList(uid: string)`: Get list of avatar IDs.
-- `getDefaultAvatarId(uid: string)`: Get first avatar ID.
-- `generateCardUrl(uid: string, avatarId: string, options?: CardOptions)`: Generate image URL.
-- `generateCardImage(uid: string, avatarId: string, options?: CardOptions)`: Fetch image as Buffer.
-- `generateDefaultCardUrl(uid: string, options?: CardOptions)`: Generate URL for default avatar.
-- `generateDefaultCardImage(uid: string, options?: CardOptions)`: Fetch image for default avatar.
-
-```
-
-```
+See [LICENSE](./LICENSE) file.
